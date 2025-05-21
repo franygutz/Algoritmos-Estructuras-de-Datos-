@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interactivo de Estructuras de Datos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .data-structure-node {
+            min-width: 60px;
+            height: 60px;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .pointer-arrow {
+            font-size: 24px;
+            line-height: 60px;
+            margin: 0 5px;
+        }
+
+        .code-block {
+            background-color: #2d3748;
+            /* Tailwind gray-800 */
+            color: #e2e8f0;
+            /* Tailwind gray-200 */
+            padding: 1rem;
+            border-radius: 0.375rem;
+            /* Tailwind rounded-md */
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.875rem;
+            /* Tailwind text-sm */
+        }
+
+        .tab-button.active {
+            border-bottom-width: 2px;
+        }
+    </style>
+</head>
+
+<body class="bg-stone-100 text-stone-800">
+
+    <header class="bg-sky-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Explorador de Estructuras de Datos</h1>
+            <nav>
+                <button data-target="inicio"
+                    class="nav-button px-3 py-2 rounded hover:bg-sky-600 active-nav">Inicio</button>
+                <button data-target="listas" class="nav-button px-3 py-2 rounded hover:bg-sky-600">Listas
+                    Enlazadas</button>
+                <button data-target="pilas" class="nav-button px-3 py-2 rounded hover:bg-sky-600">Pilas</button>
+                <button data-target="colas" class="nav-button px-3 py-2 rounded hover:bg-sky-600">Colas</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-6">
+
+        <section id="inicio" class="content-section">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-3xl font-semibold mb-4 text-sky-700">Bienvenido al Explorador Interactivo</h2>
+                <p class="mb-4">Esta aplicación te ayudará a comprender las estructuras de datos lineales dinámicas
+                    fundamentales: listas enlazadas, pilas y colas. Estos conceptos son cruciales en el mundo de la
+                    programación y los algoritmos.</p>
+                <p class="mb-4">Navega utilizando los botones en la parte superior para seleccionar una estructura de
+                    datos. Para cada una, encontrarás:</p>
+                <ul class="list-disc list-inside mb-4 space-y-1">
+                    <li>Una <strong class="font-semibold">introducción</strong> con su definición y características.
+                    </li>
+                    <li>Una sección de <strong class="font-semibold">operaciones</strong> donde podrás interactuar con
+                        una visualización simple.</li>
+                    <li>Ejemplos de <strong class="font-semibold">implementación</strong> en pseudocódigo.</li>
+                    <li>Algunas <strong class="font-semibold">aplicaciones</strong> comunes.</li>
+                </ul>
+                <p>El contenido se basa en el "Capítulo 12: Estructuras dinámicas lineales de datos" de tu material de
+                    estudio. ¡Esperamos que esta herramienta facilite tu aprendizaje!</p>
+            </div>
+        </section>
+
+        <section id="listas" class="content-section hidden">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-3xl font-semibold mb-6 text-sky-700">Listas Enlazadas</h2>
+                <div class="mb-6 border-b border-stone-300">
+                    <nav class="flex space-x-4">
+                        <button data-tab="listas-intro"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1 border-sky-700 active">Introducción</button>
+                        <button data-tab="listas-ops"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Operaciones</button>
+                        <button data-tab="listas-impl"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Implementación</button>
+                        <button data-tab="listas-app"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Aplicaciones</button>
+                    </nav>
+                </div>
+
+                <div id="listas-intro" class="tab-content">
+                    <h3 class="text-2xl font-medium mb-3">Introducción a las Listas Enlazadas</h3>
+                    <p class="mb-3">Una lista enlazada es un conjunto de elementos (nodos) donde cada elemento contiene
+                        la posición o dirección del siguiente elemento de la lista. A diferencia de los arrays, los
+                        elementos no necesitan estar en posiciones de memoria contiguas.</p>
+                    <p class="mb-3">Cada nodo típicamente tiene dos campos:</p>
+                    <ul class="list-disc list-inside mb-3">
+                        <li><strong>Dato:</strong> El valor almacenado en el nodo.</li>
+                        <li><strong>Enlace (Puntero):</strong> La dirección del siguiente nodo. El último nodo apunta a
+                            NULO.</li>
+                    </ul>
+                    <p class="mb-3"><strong>Ventajas:</strong> Inserción y eliminación eficientes, tamaño dinámico.</p>
+                    <p class="mb-3"><strong>Desventajas:</strong> Acceso secuencial (no directo por índice), mayor uso
+                        de memoria por los punteros.</p>
+                    <p class="mb-3"><strong>Ejemplo práctico:</strong> Una cadena de favores. Cada persona (nodo) sabe a
+                        quién le toca ayudar después (enlace).</p>
+                </div>
+
+                <div id="listas-ops" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Operaciones Interactivas (Simplificado)</h3>
+                    <p class="mb-4">Interactúa para ver cómo se añaden y eliminan nodos en una lista enlazada simple.
+                        Introduce un valor y selecciona una acción.</p>
+                    <div class="flex flex-wrap gap-2 mb-4 items-center">
+                        <input type="text" id="listaValor" placeholder="Valor del nodo"
+                            class="border border-stone-300 p-2 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                        <button id="listaInsertarInicio"
+                            class="bg-sky-700 text-white px-4 py-2 rounded-md hover:bg-sky-800">Insertar al
+                            Inicio</button>
+                        <button id="listaInsertarFinal"
+                            class="bg-sky-700 text-white px-4 py-2 rounded-md hover:bg-sky-800">Insertar al
+                            Final</button>
+                        <button id="listaEliminarInicio"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">Eliminar del
+                            Inicio</button>
+                        <button id="listaEliminarFinal"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">Eliminar del
+                            Final</button>
+                    </div>
+                    <div id="listaVisual"
+                        class="flex items-center p-4 border border-stone-300 rounded-md bg-stone-50 min-h-[80px] overflow-x-auto">
+                        <span class="text-stone-500">La lista está vacía.</span>
+                    </div>
+                </div>
+
+                <div id="listas-impl" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Ejemplo de Implementación (Pseudocódigo)</h3>
+                    <p class="mb-2">Definición de un nodo:</p>
+                    <pre class="code-block mb-4"><code>tipo
+    registro: nodo
+        <tipo_elemento>: elemento // campo de dato
+        punt: sig              // puntero al siguiente nodo
+    fin_registro</code></pre>
+                    <p class="mb-2">Insertar un elemento al inicio (simplificado):</p>
+                    <pre class="code-block"><code>procedimiento insertar_inicio(E/S punt: inic, E tipo_elemento: nuevo_valor)
+var punt: auxi
+inicio
+    reservar(auxi)             // Crea un nuevo nodo
+    auxi->elemento := nuevo_valor
+    auxi->sig := inic          // El nuevo nodo apunta al antiguo inicio
+    inic := auxi               // El inicio ahora es el nuevo nodo
+fin_procedimiento</code></pre>
+                </div>
+
+                <div id="listas-app" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Aplicaciones Comunes</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Implementación de otras estructuras de datos como pilas y colas.</li>
+                        <li>Manejo de listas de tareas pendientes.</li>
+                        <li>Representación de polinomios.</li>
+                        <li>Historial de navegación (botón "atrás" y "adelante" pueden usar listas doblemente
+                            enlazadas).</li>
+                        <li>Administración de memoria (listas de bloques libres).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="pilas" class="content-section hidden">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-3xl font-semibold mb-6 text-sky-700">Pilas (Stacks)</h2>
+                <div class="mb-6 border-b border-stone-300">
+                    <nav class="flex space-x-4">
+                        <button data-tab="pilas-intro"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1 border-sky-700 active">Introducción</button>
+                        <button data-tab="pilas-ops"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Operaciones</button>
+                        <button data-tab="pilas-impl"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Implementación</button>
+                        <button data-tab="pilas-app"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Aplicaciones</button>
+                    </nav>
+                </div>
+
+                <div id="pilas-intro" class="tab-content">
+                    <h3 class="text-2xl font-medium mb-3">Introducción a las Pilas</h3>
+                    <p class="mb-3">Una pila es un tipo especial de lista lineal donde la inserción (apilar o `push`) y
+                        la eliminación (desapilar o `pop`) de elementos se realizan solo por un extremo, llamado
+                        <strong>cima</strong> o <strong>tope</strong>.</p>
+                    <p class="mb-3">Siguen el principio <strong>LIFO (Last-In, First-Out)</strong>: el último elemento
+                        en entrar es el primero en salir.</p>
+                    <p class="mb-3"><strong>Ejemplo práctico:</strong> Una pila de platos. El último plato colocado
+                        encima es el primero que se toma.</p>
+                </div>
+
+                <div id="pilas-ops" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Operaciones Interactivas</h3>
+                    <p class="mb-4">Introduce un valor para apilar (push) o haz clic en desapilar (pop).</p>
+                    <div class="flex flex-wrap gap-2 mb-4 items-center">
+                        <input type="text" id="pilaValor" placeholder="Valor a apilar"
+                            class="border border-stone-300 p-2 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                        <button id="pilaPush" class="bg-sky-700 text-white px-4 py-2 rounded-md hover:bg-sky-800">Push
+                            (Apilar)</button>
+                        <button id="pilaPop" class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">Pop
+                            (Desapilar)</button>
+                    </div>
+                    <div class="flex items-end border border-stone-300 rounded-md bg-stone-50 h-64 p-2 space-x-1"
+                        id="pilaVisual">
+                        <span class="text-stone-500 self-center">La pila está vacía.</span>
+                    </div>
+                    <p class="mt-2">Tope: <span id="pilaTope" class="font-semibold text-sky-700">N/A</span></p>
+                </div>
+
+                <div id="pilas-impl" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Ejemplo de Implementación (Pseudocódigo con Punteros)</h3>
+                    <p class="mb-2">Operación `meter` (push):</p>
+                    <pre class="code-block mb-4"><code>procedimiento meter (E/S punt: cima; E tipo_elemento: elemento)
+var punt: auxi
+inicio
+    reservar(auxi)
+    auxi->elemento := elemento
+    auxi->cima := cima  // En el PDF es auxi->sig o similar, adaptado a 'cima' como puntero
+    cima := auxi
+fin_procedimiento</code></pre>
+                    <p class="mb-2">Operación `sacar` (pop):</p>
+                    <pre class="code-block"><code>procedimiento sacar (E/S punt: cima; S tipo_elemento: elemento)
+var punt: auxi
+inicio
+    si no vacia(cima) entonces
+        auxi := cima
+        elemento := cima->elemento
+        cima := cima->cima // Adaptado de cima->sig
+        liberar(auxi)
+    fin si
+fin_procedimiento</code></pre>
+                </div>
+
+                <div id="pilas-app" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Aplicaciones Comunes</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Manejo de llamadas a funciones (pila de llamadas).</li>
+                        <li>Evaluación de expresiones aritméticas (notación polaca inversa).</li>
+                        <li>Algoritmos de retroceso (backtracking).</li>
+                        <li>Funcionalidad "Deshacer" (Undo) en editores.</li>
+                        <li>Verificación de paréntesis balanceados.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="colas" class="content-section hidden">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-3xl font-semibold mb-6 text-sky-700">Colas (Queues)</h2>
+                <div class="mb-6 border-b border-stone-300">
+                    <nav class="flex space-x-4">
+                        <button data-tab="colas-intro"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1 border-sky-700 active">Introducción</button>
+                        <button data-tab="colas-ops"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Operaciones</button>
+                        <button data-tab="colas-impl"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Implementación</button>
+                        <button data-tab="colas-app"
+                            class="tab-button text-stone-600 hover:text-sky-700 py-2 px-1">Aplicaciones</button>
+                    </nav>
+                </div>
+
+                <div id="colas-intro" class="tab-content">
+                    <h3 class="text-2xl font-medium mb-3">Introducción a las Colas</h3>
+                    <p class="mb-3">Una cola es una estructura lineal de datos donde las eliminaciones se realizan por
+                        un extremo (el <strong>frente</strong> o `front`) y las inserciones por el otro extremo (el
+                        <strong>final</strong> o `rear`).</p>
+                    <p class="mb-3">Siguen el principio <strong>FIFO (First-In, First-Out)</strong>: el primer elemento
+                        en entrar es el primero en salir.</p>
+                    <p class="mb-3"><strong>Ejemplo práctico:</strong> Una fila para comprar boletos en el cine. La
+                        primera persona en llegar es la primera en ser atendida.</p>
+                </div>
+
+                <div id="colas-ops" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Operaciones Interactivas</h3>
+                    <p class="mb-4">Introduce un valor para encolar (enqueue) o haz clic en desencolar (dequeue).</p>
+                    <div class="flex flex-wrap gap-2 mb-4 items-center">
+                        <input type="text" id="colaValor" placeholder="Valor a encolar"
+                            class="border border-stone-300 p-2 rounded-md focus:ring-sky-500 focus:border-sky-500">
+                        <button id="colaEnqueue"
+                            class="bg-sky-700 text-white px-4 py-2 rounded-md hover:bg-sky-800">Enqueue
+                            (Encolar)</button>
+                        <button id="colaDequeue"
+                            class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700">Dequeue
+                            (Desencolar)</button>
+                    </div>
+                    <div class="flex items-center border border-stone-300 rounded-md bg-stone-50 min-h-[80px] p-2 overflow-x-auto"
+                        id="colaVisual">
+                        <span class="text-stone-500">La cola está vacía.</span>
+                    </div>
+                    <p class="mt-2">Frente: <span id="colaFrente" class="font-semibold text-sky-700">N/A</span> | Final:
+                        <span id="colaFinal" class="font-semibold text-sky-700">N/A</span></p>
+                </div>
+
+                <div id="colas-impl" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Ejemplo de Implementación (Pseudocódigo con Punteros)</h3>
+                    <p class="mb-2">Operación `meter` (enqueue):</p>
+                    <pre class="code-block mb-4"><code>procedimiento meter (E/S punt: final, frente; E tipo_elemento: elemento)
+var punt: auxi
+inicio
+    reservar(auxi)
+    auxi->elemento := elemento
+    auxi->sig := nulo
+    si final = nulo entonces // Cola estaba vacía
+        frente := auxi
+    si no
+        final->sig := auxi
+    fin si
+    final := auxi
+fin_procedimiento</code></pre>
+                    <p class="mb-2">Operación `sacar` (dequeue):</p>
+                    <pre class="code-block"><code>procedimiento sacar (E/S punt: frente, final; S tipo_elemento: elemento)
+var punt: auxi
+inicio
+    si no vacia(frente) entonces
+        auxi := frente
+        elemento := frente->elemento
+        frente := frente->sig
+        si frente = nulo entonces // Cola quedó vacía
+            final := nulo
+        fin si
+        liberar(auxi)
+    fin si
+fin_procedimiento</code></pre>
+                </div>
+
+                <div id="colas-app" class="tab-content hidden">
+                    <h3 class="text-2xl font-medium mb-3">Aplicaciones Comunes</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Gestión de tareas en sistemas operativos (planificación de procesos).</li>
+                        <li>Colas de impresión.</li>
+                        <li>Buffers de datos (por ejemplo, en streaming de video).</li>
+                        <li>Algoritmos de recorrido de grafos (como Búsqueda en Anchura - BFS).</li>
+                        <li>Sistemas de atención al cliente (gestión de turnos).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 text-stone-600 text-sm">
+        <p>Explorador Interactivo de Estructuras de Datos Lineales. Basado en material de estudio de Algoritmos.
+            Generado con IA</p>
+    </footer>
+
+    <script>
+        const navButtons = document.querySelectorAll('.nav-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function updateNavActiveState(activeButton) {
+            navButtons.forEach(btn => btn.classList.remove('bg-sky-800', 'font-semibold', 'active-nav'));
+            activeButton.classList.add('bg-sky-800', 'font-semibold', 'active-nav');
+        }
+
+        updateNavActiveState(document.querySelector('.nav-button[data-target="inicio"]'));
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+                contentSections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+                updateNavActiveState(button);
+                // Reset tabs in the newly shown section
+                const activeSection = document.getElementById(targetId);
+                if (activeSection) {
+                    const firstTabButton = activeSection.querySelector('.tab-button');
+                    if (firstTabButton) {
+                        handleTabClick(firstTabButton, activeSection);
+                    }
+                }
+            });
+        });
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const sectionElement = button.closest('.content-section');
+                handleTabClick(button, sectionElement);
+            });
+        });
+
+        // Initialize first tab for each section
+        contentSections.forEach(section => {
+            const firstTabButton = section.querySelector('.tab-button');
+            if (firstTabButton) {
+                handleTabClick(firstTabButton, section);
+            }
+        });
+
+
+        // --- Lógica para Listas Enlazadas ---
+        let listaEnlazada = [];
+        const listaVisual = document.getElementById('listaVisual');
+        const listaValorInput = document.getElementById('listaValor');
+
+        function renderLista() {
+            listaVisual.innerHTML = '';
+            if (listaEnlazada.length === 0) {
+                listaVisual.innerHTML = '<span class="text-stone-500">La lista está vacía.</span>';
+                return;
+            }
+            listaEnlazada.forEach((val, index) => {
+                const nodoDiv = document.createElement('div');
+                nodoDiv.className = 'data-structure-node bg-teal-500 text-white border-teal-700 rounded-md shadow';
+                nodoDiv.textContent = val;
+                listaVisual.appendChild(nodoDiv);
+                if (index < listaEnlazada.length - 1) {
+                    const arrowSpan = document.createElement('span');
+                    arrowSpan.className = 'pointer-arrow text-teal-700';
+                    arrowSpan.innerHTML = '&rarr;';
+                    listaVisual.appendChild(arrowSpan);
+                }
+            });
+            const nullSpan = document.createElement('span');
+            nullSpan.className = 'pointer-arrow text-teal-700';
+            nullSpan.innerHTML = '&rarr; NULO';
+            listaVisual.appendChild(nullSpan);
+        }
+
+        document.getElementById('listaInsertarInicio').addEventListener('click', () => {
+            const valor = listaValorInput.value.trim();
+            if (valor) {
+                listaEnlazada.unshift(valor);
+                renderLista();
+                listaValorInput.value = '';
+            }
+        });
+        document.getElementById('listaInsertarFinal').addEventListener('click', () => {
+            const valor = listaValorInput.value.trim();
+            if (valor) {
+                listaEnlazada.push(valor);
+                renderLista();
+                listaValorInput.value = '';
+            }
+        });
+        document.getElementById('listaEliminarInicio').addEventListener('click', () => {
+            if (listaEnlazada.length > 0) {
+                listaEnlazada.shift();
+                renderLista();
+            }
+        });
+        document.getElementById('listaEliminarFinal').addEventListener('click', () => {
+            if (listaEnlazada.length > 0) {
+                listaEnlazada.pop();
+                renderLista();
+            }
+        });
+        renderLista(); // Initial render
+
+        // --- Lógica para Pilas ---
+        let pila = [];
+        const pilaVisual = document.getElementById('pilaVisual');
+        const pilaValorInput = document.getElementById('pilaValor');
+        const pilaTopeDisplay = document.getElementById('pilaTope');
+
+        function renderPila() {
+            pilaVisual.innerHTML = '';
+            if (pila.length === 0) {
+                pilaVisual.innerHTML = '<span class="text-stone-500 self-center">La pila está vacía.</span>';
+                pilaTopeDisplay.textContent = 'N/A';
+                return;
+            }
+            // Render from bottom to top for visual stack
+            [...pila].reverse().forEach(val => {
+                const elementoDiv = document.createElement('div');
+                elementoDiv.className = 'data-structure-node bg-amber-500 text-white border-amber-700 rounded-sm shadow-sm w-full';
+                elementoDiv.textContent = val;
+                pilaVisual.prepend(elementoDiv); // prepend to stack visually from bottom
+            });
+            pilaTopeDisplay.textContent = pila[pila.length - 1];
+        }
+
+        document.getElementById('pilaPush').addEventListener('click', () => {
+            const valor = pilaValorInput.value.trim();
+            if (valor) {
+                if (pila.length < 5) { // Limiting visual stack height for demo
+                    pila.push(valor);
+                    renderPila();
+                    pilaValorInput.value = '';
+                } else {
+                    alert("La visualización de la pila está llena (límite de 5 elementos para demo).");
+                }
+            }
+        });
+        document.getElementById('pilaPop').addEventListener('click', () => {
+            if (pila.length > 0) {
+                pila.pop();
+                renderPila();
+            }
+        });
+        renderPila(); // Initial render
+
+        // --- Lógica para Colas ---
+        let cola = [];
+        const colaVisual = document.getElementById('colaVisual');
+        const colaValorInput = document.getElementById('colaValor');
+        const colaFrenteDisplay = document.getElementById('colaFrente');
+        const colaFinalDisplay = document.getElementById('colaFinal');
+
+        function renderCola() {
+            colaVisual.innerHTML = '';
+            if (cola.length === 0) {
+                colaVisual.innerHTML = '<span class="text-stone-500">La cola está vacía.</span>';
+                colaFrenteDisplay.textContent = 'N/A';
+                colaFinalDisplay.textContent = 'N/A';
+                return;
+            }
+            cola.forEach((val, index) => {
+                const elementoDiv = document.createElement('div');
+                elementoDiv.className = 'data-structure-node bg-emerald-500 text-white border-emerald-700 rounded-md shadow';
+                elementoDiv.textContent = val;
+                colaVisual.appendChild(elementoDiv);
+                if (index < cola.length - 1) {
+                    const arrowSpan = document.createElement('span');
+                    arrowSpan.className = 'pointer-arrow text-emerald-700';
+                    arrowSpan.innerHTML = '&rarr;';
+                    colaVisual.appendChild(arrowSpan);
+                }
+            });
+            colaFrenteDisplay.textContent = cola[0];
+            colaFinalDisplay.textContent = cola[cola.length - 1];
+        }
+
+        document.getElementById('colaEnqueue').addEventListener('click', () => {
+            const valor = colaValorInput.value.trim();
+            if (valor) {
+                if (cola.length < 7) { // Limiting visual queue length for demo
+                    cola.push(valor); // Add to rear
+                    renderCola();
+                    colaValorInput.value = '';
+                } else {
+                    alert("La visualización de la cola está llena (límite de 7 elementos para demo).");
+                }
+            }
+        });
+        document.getElementById('colaDequeue').addEventListener('click', () => {
+            if (cola.length > 0) {
+                cola.shift(); // Remove from front
+                renderCola();
+            }
+        });
+        renderCola(); // Initial render
+
+    </script>
+</body>
+
+</html>
